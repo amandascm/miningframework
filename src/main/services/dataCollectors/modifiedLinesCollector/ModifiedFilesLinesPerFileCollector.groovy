@@ -38,7 +38,7 @@ class ModifiedFilesLinesPerFileCollector extends ModifiedLinesCollectorAbstract 
     void createExperimentalDataFiles(String outputPath) {
         this.experimentalDataFile = new File(outputPath + "/data/results.csv")
         if (!experimentalDataFile.exists()) {
-            this.experimentalDataFile << 'project;merge commit;file path;left additions;left deletions;left changes;right additions;right deletions;right changes;repo url\n'
+            this.experimentalDataFile << 'project;merge commit;ancestor commit;left parent commit;right parent commit;file path;left additions;left deletions;left changes;right additions;right deletions;right changes;repo url\n'
         }
 
         if (arguments.isPushCommandActive()) {
@@ -50,7 +50,7 @@ class ModifiedFilesLinesPerFileCollector extends ModifiedLinesCollectorAbstract 
                       HashSet<Integer> leftAddedLines, HashSet<Integer> leftDeletedLines, HashSet<Integer> leftChangedLines,
                       HashSet<Integer> rightAddedLines, HashSet<Integer> rightDeletedLines, HashSet<Integer> rightChangedLines) {
         String remoteRepositoryURL = project.getRemoteUrl()
-        experimentalDataFile << "${project.getName()};${mergeCommit.getSHA()};${filePath};${leftAddedLines};${leftDeletedLines};${leftChangedLines};${rightAddedLines};${rightDeletedLines};${rightChangedLines};${remoteRepositoryURL}\n"
+        experimentalDataFile << "${project.getName()};${mergeCommit.getSHA()};${mergeCommit.getAncestorSHA()};${mergeCommit.getLeftSHA()};${mergeCommit.getRightSHA()};${filePath};${leftAddedLines};${leftDeletedLines};${leftChangedLines};${rightAddedLines};${rightDeletedLines};${rightChangedLines};${remoteRepositoryURL}\n"
 
         // Add links.
         if(arguments.isPushCommandActive())
